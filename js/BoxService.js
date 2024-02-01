@@ -359,7 +359,7 @@ export default class BoxService {
                             boxColors[args.label.toLowerCase()] :
                             'rgb(0, 220, 0)' :
                         'rgb(0, 220, 0)',
-                    opacity: 0.2,
+                    opacity: 0.3,
                     id: id,
                     type: "box",
                     lockRotation: true,
