@@ -41,6 +41,8 @@ In order to serve the files, you can use the `serve` package from NPM :
 npm install -g serve
 ```
 
+Should you encounter any issues with the above command, please refer to [this doc](https://github.com/jiangjiangzh/Banksy-annotation-tool/blob/master/docs/npm_node_update.md).
+
 ### Launch 🚀
 
 To launch the tool, you simply need to serve the files, so you can use `serve` 
