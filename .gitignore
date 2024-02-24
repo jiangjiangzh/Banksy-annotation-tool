@@ -397,4 +397,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# End of https://github.com/github/gitignore/blob/master/Python.gitignore
+# End of https://github.com/github/gitignore/blob/master/Python.
+
+
+source/
+output/
