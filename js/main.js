@@ -475,10 +475,6 @@ function exportResult() {
     State.saveAlert = true
 }
 
-function importAnnotation(){
-
-}
-
 function mergeBoxes() {
     if (State.mergingMode) {
         let selection = State.canvas.getActiveObject()
