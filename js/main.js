@@ -144,6 +144,31 @@ document.addEventListener("DOMContentLoaded", () => {
         exportResult()
     })
 
+    // Importing annotation
+    document.getElementById("import-button").addEventListener("click", e => {
+        // We send a little alert if the user hasn't saved yet
+        if (!State.saveAlert) {
+            UIkit.notification("Don't forget to save. Click again to skip anyway", {status: 'warning', pos: "bottom-center"})
+            State.saveAlert = true
+            return
+        }
+
+        // Load annotation data
+        let objects = FileService.loadAnnotationJson();
+
+        if (objects !== null){
+            console.log("Start importing...")
+            // Removing all the objects from the canvas
+            State.canvas.remove(...State.canvas.getObjects())
+            // Reseting all the state variables
+            State.resetState()
+            // And clearing the box list
+            document.getElementById("box-list").innerHTML = ""
+            // Reset image
+            setImage(FileService.getImageFilePath(), objects)
+        }
+    })
+
     //Showing the current image name on top
     document.getElementById("current-image").innerText = FileService.getImageName()
     //Changing image
@@ -289,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function setImage(path) {
+function setImage(path, annObjects=null) {
     return new Promise((resolve, reject) => {
         // (Solved) Warning, the image can be loaded a little after, so if there is already things on the canvas,
         // the image can be placed on top of it
@@ -318,8 +343,15 @@ function setImage(path) {
             // Ensuring the image is rendered in the canvas before proceeding
             State.canvas.renderAll();
 
-            // Function to handle the loading of data (local storage or file)
-            function loadData() {
+            // Function to handle the loading of data (annotation file, local storage, or OCR json file)
+            function loadData(annObjects) {
+                if (annObjects !== null) {
+                    console.log(`Load ${FileService.getImageName()} from annotation.`)
+                    BoxService.createBoxesFromArray(annObjects)
+                    LinkingService.createLinksFromArray(annObjects)
+                    return
+                }
+
                 if (window.localStorage.getItem(FileService.getImageName()) !== null) {
                     UIkit.modal.confirm("Data has been found in local storage. Do you want to import it?")
                         .then(() => {
@@ -335,15 +367,16 @@ function setImage(path) {
                             FileService.loadJson()
                             resolve()
                         });
-                } else {
-                    // Loading from json file otherwise
+                } 
+                else {
+                    // Loading from OCR json file otherwise
                     FileService.loadJson();
                     resolve();
                 }
             }
 
             // Use setTimeout to allow the UI thread to update with the image before loading data
-            setTimeout(loadData, 0);
+            setTimeout(loadData(annObjects), 0);
         })
     });
 }
@@ -440,6 +473,10 @@ function exportResult() {
     link.download = FileService.getImageName() + "_output.json";
     link.click();
     State.saveAlert = true
+}
+
+function importAnnotation(){
+
 }
 
 function mergeBoxes() {

@@ -6,6 +6,8 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/AboutGoods/Banksy-annotation-tool)
 
 
+[Update] `20240226`: Add "[import from annotation](#import-from-annotation)" feature. 
+
 ## 📃 Description
 
 Banksy is an image annotation tool, outputting a dataset with NER (Named Entity Recognition), NEL (Named Entity Linking) and box region on image. 
@@ -79,6 +81,10 @@ You can also delete a box with the `del` key.
 ### Links 🔗
 
 In order to create links between boxes, select the box that will be the starting point of the link, then click and hold the blue square on the right, and drop the link on the desired destination box.
+
+### Import from annotation
+
+If you need to import annotation for further modification, place the annotation file in the output folder and name it `image_XXX_output.json`.  Click the **IMPORT FROM ANNOTATION** button at the top-right of the page to import the annotation. *Note: your previous work will disappear.*
 
 ### Utils 🛠
 

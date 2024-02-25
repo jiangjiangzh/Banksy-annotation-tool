@@ -11,6 +11,10 @@ export default class FileService {
         return "/source/" + FileService.getImageName() + ".json"
     }
 
+    static getAnnotationFilePath(){
+        return "/output/" + FileService.getImageName() + "_output.json"
+    }
+
     static getImageName() {
         return "image_" + ('00' + State.currentFileNumber).slice(-3)
     }
@@ -56,6 +60,20 @@ export default class FileService {
         let boxObjects = FileService.parseVisionResponse(objects)
 
         BoxService.createBoxesFromArray(boxObjects)
+    }
+
+    static loadAnnotationJson() {
+        let req = new XMLHttpRequest()
+        req.open("GET", FileService.getAnnotationFilePath(), false)
+        req.send()
+        if (req.status === 404) {
+            UIkit.notification(`No annotation file found for ${FileService.getImageName()}, please save the annotation to "output" folder first.`, {status: 'danger', pos: "top-center"})
+            return null
+        } 
+        else {
+            let objects = JSON.parse(req.responseText);
+            return objects
+        }
     }
 
     static loadFromJsonString(str) {
