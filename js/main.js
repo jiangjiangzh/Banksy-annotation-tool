@@ -486,7 +486,23 @@ function mergeBoxes() {
             //We sort from the left to the right
             boxes.sort((a, b) => a.box.left >= b.box.left ? 1 : -1)
             //in order to concat the text
-            let text = boxes.reduce((str, box) => str + box.content, "").trim()
+            function isAlphabetic(str){
+                const result = [...str].every(char => (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z'));
+                return result;
+            }
+            function concatText(str, box){
+                if (str === ""){
+                    return box.content;
+                }
+                else if (isAlphabetic(str[str.length-1]) && isAlphabetic(box.content[0])){
+                    return str + " " + box.content;
+                }
+                else{
+                    return str + box.content;
+                
+                }
+            }
+            let text = boxes.reduce(concatText, "").trim()
             let createdId = BoxService.createBox({
                 left: selection.left,
                 top: selection.top,
