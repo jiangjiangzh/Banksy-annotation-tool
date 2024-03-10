@@ -6,7 +6,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/AboutGoods/Banksy-annotation-tool)
 
 
-[Update] `20240310`: Add space between English words when merging.
+[Update] `20240310`: Add space between English words when merging.  
 [Update] `20240226`: Add "[import from annotation](#import-from-annotation)" feature. 
 
 ## 📃 Description
